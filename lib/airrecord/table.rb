@@ -1,5 +1,15 @@
 module Airrecord
   class Table
+    class RecordSet < SimpleDelegator
+      attr_reader :records, :offset
+
+      def initialize(records:, offset:)
+        @records = records
+        @offset = offset
+        __setobj__(@records)
+      end
+    end
+
     class << self
       attr_accessor :base_key, :table_name
       attr_writer :api_key
@@ -97,7 +107,7 @@ module Airrecord
             ))
           end
 
-          records
+          RecordSet.new(records: records, offset: parsed_response["offset"])
         else
           client.handle_error(response.status, parsed_response)
         end
