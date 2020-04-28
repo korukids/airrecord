@@ -37,7 +37,13 @@ class TableTest < Minitest::Test
   end
 
   def test_retrieve_records
-    assert_instance_of Array, @table.records
+    assert_equal 2, @table.records.size
+  end
+
+  def test_records_includes_offset
+    stub_request([{"Name" => "1"}, {"Name" => "2"}], offset: 'dasfuhiu')
+
+    assert_equal 'dasfuhiu', @table.records(paginate: false).offset
   end
 
   def test_different_clients_with_different_api_keys
