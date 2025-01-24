@@ -41,7 +41,7 @@ class TableTest < Minitest::Test
   end
 
   def test_records_includes_offset
-    stub_request([{"Name" => "1"}, {"Name" => "2"}], offset: 'dasfuhiu')
+    stub_records_request([{"Name" => "1"}, {"Name" => "2"}], offset: 'dasfuhiu')
 
     assert_equal 'dasfuhiu', @table.records(paginate: false).offset
   end

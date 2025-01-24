@@ -26,7 +26,7 @@ class Teapot < Airrecord::Table
 end
 
 
-class AssociationsTest < MiniTest::Test
+class AssociationsTest < Minitest::Test
   def setup
     @stubs = Faraday::Adapter::Test::Stubs.new
     Tea.client.connection = Faraday.new { |builder|
