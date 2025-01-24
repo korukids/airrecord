@@ -1,4 +1,5 @@
 require 'rubygems' # For Gem::Version
+require 'delegate'
 
 module Airrecord
   class Table
