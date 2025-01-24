@@ -79,6 +79,11 @@ Tea.find("rec3838")
 
 ### Authentication
 
+Based on [Changelog](https://airtable.com/developers/web/api/changelog#anchor-2022-11-15) There are two ways to authenticate with Airtable API:
+1. API key
+2. Personal Access Token
+
+#### API key
 To obtain your API client, navigate to the [Airtable's API
 page](https://airtable.com/api), select your base and obtain your API key and
 application token.
@@ -93,6 +98,19 @@ Airrecord.api_key = "your api key"
 
 The app token has to be set on the definitions of the tables (see API below).
 You can override the API key per table.
+
+#### Personal Access Token (PAT)
+- To create a PAT, navigate to the [Airtable's Personal Access Tokens](https://airtable.com/create/tokens) page and create a new token.
+- Give your token a unique name. This name will be visible in record revision history.
+- Choose the scopes to grant to your token. This controls what API endpoints the token will be able to use. For more information, see [API scopes](https://airtable.com/api#authentication).
+- Click ‘add a base’ to grant the token access to a base or workspace.
+- Click ‘create token’ to create the token. You will be shown the token’s value. This is the only time you will be able to see the token’s value, so be sure to copy it to a secure location.
+
+You can provide a global PAT with:
+
+```ruby
+Airrecord.api_key = "your PAT"
+```
 
 ### Table
 
@@ -244,8 +262,9 @@ Airtable which has still not been released._
 
 ### Updating
 
-Updating a record is done by changing the attributes and persistent to
-Airtable with `#save`.
+Updating can be done in two ways:
+
+1. With a record instance, change the attributes and persist to Airtable with `#save`
 
 ```ruby
 tea = Tea.find("someid")
@@ -253,6 +272,12 @@ tea["Name"] = "Feng Gang Organic"
 tea["Village"] = "Feng Gang"
 
 tea.save # persist to Airtable
+```
+
+2. With the `Table.update` class method (to save an API find call)
+
+```ruby
+Tea.update("someid", { "Name" => "Feng Gang Organic", "Village" => "Feng Gang" })
 ```
 
 _Airtable's API doesn't allow you to change attachment's filename. As a workaround you can delete the original attachment and [upload a new one](https://github.com/sirupsen/airrecord#file-uploads) with the original URL and a new filename._
